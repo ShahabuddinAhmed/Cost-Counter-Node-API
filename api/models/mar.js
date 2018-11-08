@@ -7,5 +7,7 @@ const marSchema = mongoose.Schema({
     year: { type: String, required: true },
     itemName: { type: String, required: true },
     cost: { type: Integer, required: true },
-    users_id: { type: String, required: true, unique: true }
+    users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" }
 });
+
+module.exports = mongoose.model("Mar", marSchema);
