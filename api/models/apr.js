@@ -7,7 +7,7 @@ const aprSchema = mongoose.Schema({
     date: { type: String, required: true },
     month: { type: String, required: true },
     year: { type: String, required: true },
-    users_id: { type: String, required: true }
+    users_id: { type: mongoose.Schema.Types.ObjectId, ref: "Users" }
 });
 
 module.exports = mongoose.model("Apr", aprSchema);
