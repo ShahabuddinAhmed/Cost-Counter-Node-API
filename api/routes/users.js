@@ -7,7 +7,7 @@ router.get('/', (req, res, next) => {
     Users.find()
     .exec()
     .then(docs => {
-        if(docs) {
+        if(docs > 0) {
             console.log("From database", docs);
             res.status(200).json({
                 message: "Data is successfully gotten",
