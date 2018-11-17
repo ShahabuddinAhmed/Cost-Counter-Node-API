@@ -50,7 +50,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/:userID', (req, res, next) => {
     const id = req.params.userID;
-    Aug.findById(id)
+    Aug.find({users_id: id})
     .exec()
     .then(doc => {
         if(doc) {
