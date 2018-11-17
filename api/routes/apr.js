@@ -5,6 +5,7 @@ const Apr = require('../models/apr');
 
 router.get('/', (req, res, next) => {
     Apr.find()
+    .populate('users_id')
     .exec()
     .then(docs => {
         if(docs) {
@@ -51,6 +52,7 @@ router.post('/', (req, res, next) => {
 router.get('/:userID', (req, res, next) => {
     const id = req.params.userID;
     Apr.findById(id)
+    .populate('users_id')
     .exec()
     .then(doc => {
         if(doc) {
