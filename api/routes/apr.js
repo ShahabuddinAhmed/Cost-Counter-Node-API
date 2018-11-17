@@ -51,8 +51,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/:userID', (req, res, next) => {
     const id = req.params.userID;
-    Apr.findById(id)
-    .populate('users_id')
+    Apr.find({users_id: id})
     .exec()
     .then(doc => {
         if(doc) {
