@@ -50,7 +50,7 @@ router.post('/', (req, res, next) => {
 
 router.get('/:userID', (req, res, next) => {
     const id = req.params.userID;
-    Nov.findById(id)
+    Nov.find({users_id: id})
     .exec()
     .then(doc => {
         if(doc) {
