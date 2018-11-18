@@ -7,7 +7,7 @@ router.get('/', (req, res, next) => {
     Jul.find()
     .exec()
     .then(docs => {
-        if(docs > 0) {
+        if(docs.length >=1) {
             console.log("From database", docs);
             res.status(200).json({
                 message: "Data is successfully gotten",
@@ -40,11 +40,16 @@ router.post('/', (req, res, next) => {
     .save()
     .then(result => {
         console.log(result);
+        res.status(201).json({
+            message: 'Data successfully is added',
+            userInfo: jul
+        });
     })
-    .catch(err => console.log(err));
-    res.status(201).json({
-        message: 'Data successfully is added',
-        userInfo: jul
+    .catch(err => {
+        console.log(err);
+        res.status(400).json({
+            error: err
+        });
     });
 });
 
@@ -53,7 +58,7 @@ router.get('/:userID', (req, res, next) => {
     Jul.find({users_id: id})
     .exec()
     .then(doc => {
-        if(doc) {
+        if(doc.length >=1) {
             console.log("From database", doc);
             res.status(200).json({
                 message: "Data is successfully gotten by provided ID",
