@@ -1,5 +1,6 @@
 {
     "env": {
-        "password": "coust-counter"
+        "password": "coust-counter",
+        "JWT_KEY": "secret"
     }
 }
