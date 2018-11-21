@@ -1,116 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const Users = require('../models/users');
+const checkAuth = require('../middleware/check-auth');
+const userController = require('../controller/user');
 
-router.get('/', (req, res, next) => {
-    Users.find()
-    .exec()
-    .then(docs => {
-        if(docs > 0) {
-            console.log("From database", docs);
-            res.status(200).json({
-                message: "Data is successfully gotten",
-                docs
-            });
-        } else {
-            res.status(404).json({
-                message: "Users document is empty."
-            });
-        }
-    })
-    .catch(err => {
-        res.status(200).json({
-            message: err
-        });
-    })
-});
-
-router.post('/', (req, res, next) => {
-    const user = new Users({
-        _id: new mongoose.Types.ObjectId(),
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        address: req.body.address,
-        password: req.body.password
-    });
-    user
-    .save()
-    .then(result => {
-        console.log(result);
-    })
-    .catch(err => console.log(err));
-    res.status(201).json({
-        message: 'Data successfully is added',
-        userInfo: user
-    });
-});
-
-router.get('/:userID', (req, res, next) => {
-    const id = req.params.userID;
-    Users.findById(id)
-    .exec()
-    .then(doc => {
-        if(doc) {
-            console.log("From database", doc);
-            res.status(200).json({
-                message: "Data is successfully gotten by provided ID",
-                doc
-            });
-        } else {
-            res.status(404).json({
-                message: "No data is found by provided ID"
-            });
-        }
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            error: err
-        });
-    })
-});
-
-router.patch('/:userID', (req, res, next) => {
-    const id = req.params.userID;
-    const updateOps = {};
-    for(const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
-    }
-    Users.update({ _id: id }, { $set: updateOps })
-    .exec()
-    .then(result => {
-        console.log(result);
-        res.status(200).json({
-            message: "Data is successfully updated",
-            result
-        });
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            error: err
-        });
-    });
-});
-
-router.delete('/:userID', (req, res, next) => {
-    const id = req.params.userID;
-    Users.remove({ _id: id })
-    .exec()
-    .then(result => {
-        res.status(200).json({
-            message: "Data is successfully deleted",
-            result
-        });
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({
-            error: err
-        });
-    })
-});
+router.get('/',checkAuth, userController.get_all_user);
+router.post('/register', userController.user_register);
+router.post('/login', userController.user_login);
+router.get('/:userID', checkAuth, userController.get_one_user);
+router.patch('/update/:userID', checkAuth, userController.update_user);
+router.delete('/delete/:userID', checkAuth, userController.detelete_user);
 
 module.exports = router;
