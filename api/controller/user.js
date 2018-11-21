@@ -100,7 +100,7 @@ exports.user_login = (req, res, next) => {
                     },
                     process.env.JWT_KEY,
                     {
-                        expiresIn: "10m"
+                        expiresIn: "1h"
                     }
                 );
                 return res.status(200).json({
