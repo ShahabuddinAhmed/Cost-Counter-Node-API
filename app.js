@@ -20,7 +20,8 @@ const novRoutes = require('./api/routes/nov');
 const decRoutes = require('./api/routes/dec');
 
 mongoose.connect('mongodb://cost-counter:cost-counter@database-shard-00-00-v0ueh.gcp.mongodb.net:27017,database-shard-00-01-v0ueh.gcp.mongodb.net:27017,database-shard-00-02-v0ueh.gcp.mongodb.net:27017/house-renting?ssl=true&replicaSet=database-shard-0&authSource=admin&retryWrites=true', {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex: true
 });
 
 // morgan used for show colsole http request and error handleing
